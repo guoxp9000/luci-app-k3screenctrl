@@ -12,7 +12,7 @@ define Package/$(PKG_NAME)
 	CATEGORY:=LuCI
 	SUBMENU:=3. Applications
 	TITLE:=LuCI Support for k3screenctrl
-	DEPENDS:=+bash +jsonfilter +luci-compat +wget
+	DEPENDS:=+bash +jsonfilter +luci-compat +libopenssl +wget
 	PKGARCH:=all
 	MAINTAINER:=yiguihai
 endef
