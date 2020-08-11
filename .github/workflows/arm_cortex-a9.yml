@@ -29,8 +29,7 @@ jobs:
         sudo apt-get install subversion g++ zlib1g-dev build-essential git python python3 python3-distutils libncurses5-dev gawk gettext unzip file libssl-dev wget libelf-dev ecj fastjar java-propose-classpath
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
-        cd ${HOME}
-        echo "当前目录: ${HOME}"
+        cd /tmp #路径过长容易报错。https://forum.openwrt.org/t/buid-package-uclibc-failed-by-using-openwrt-sdk/64377
     
     - name: Install UPX
       run: |
@@ -95,7 +94,6 @@ jobs:
         ./scripts/feeds install -a
         wget --no-check-certificate --quiet --continue --show-progress --output-document='.config' ${URL%/*}/config.buildinfo
         [ $? -ne 0 ]&&echo "下载.config失败!"&&exit 127
-        echo 'CONFIG_PACKAGE_wget=m' >> .config
         [ ! -d feeds/luci/applications ]&&echo "没有找到 feeds/luci/applications 路径!"&&exit 127
         echo "克隆 luci-app-k3screenctrl 中..."
         git clone https://github.com/yiguihai/luci-app-k3screenctrl feeds/luci/applications/luci-app-k3screenctrl
@@ -118,10 +116,10 @@ jobs:
         upx --ultra-brute --best -v src/k3screenctrl
         mkdir -p ../../root/usr/bin
         mv -f src/k3screenctrl ../../root/usr/bin
+        chmod -R +x ../../root/usr/bin
         make clean
         echo "开始编译ipk包..."
         mkdir -p /tmp/ipk
-        sed -i "s/PKGARCH:=all/PKGARCH:=$garch/g" ../../Makefile
         pushd ${dirn}/${dirn1}        
         ./scripts/feeds update -a
         ./scripts/feeds install luci-app-k3screenctrl
