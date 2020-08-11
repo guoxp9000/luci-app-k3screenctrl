@@ -111,27 +111,19 @@ jobs:
         cd ../k3screenctrl
         ./configure --host=${target_host}
         make -j${cores:=1}
-        file src/k3screenctrl
-        exit
+        ${target_host}-strip src/k3screenctrl
         ${target_host}-readelf -d src/k3screenctrl
         file src/k3screenctrl
         upx --ultra-brute --best -v src/k3screenctrl
-        mv -f ipt2socks /tmp/bin
+        mkdir -p ../../root/usr/bin
+        mv -f src/k3screenctrl ../../root/usr/bin
+        chmod -R +x ../../root/usr/bin
         make clean
         echo "开始编译ipk包..."
         mkdir -p /tmp/ipk
         pushd ${dirn}/${dirn1}        
         ./scripts/feeds update -a
         ./scripts/feeds install luci-app-k3screenctrl
-        make package/luci-app-k3screenctrl/compile -j${cores:=1}
-        find bin/ -type f -name "*luci-app-k3screenctrl*" | xargs -t -i mv -vf {} /tmp/ipk
-        popd
-        mkdir -p ../../root/usr/bin
-        mv /tmp/bin/* ../../root/usr/bin
-        chmod -R +x ../../root/usr/bin
-        #opkg print-architecture 查看平台架构
-        sed -i "s/PKGARCH:=all/PKGARCH:=$garch/g;s/PKG_RELEASE:=1/PKG_RELEASE:=2/g" ../../Makefile
-        pushd ${dirn}/${dirn1}
         make package/luci-app-k3screenctrl/compile -j${cores:=1}
         find bin/ -type f -name "*luci-app-k3screenctrl*" | xargs -t -i mv -vf {} /tmp/ipk
         popd
