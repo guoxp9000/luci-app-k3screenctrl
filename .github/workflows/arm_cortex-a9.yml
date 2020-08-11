@@ -95,6 +95,9 @@ jobs:
         ./scripts/feeds install -a
         wget --no-check-certificate --quiet --continue --show-progress --output-document='.config' ${URL%/*}/config.buildinfo
         [ $? -ne 0 ]&&echo "下载.config失败!"&&exit 127
+        make package/wget/compile -j${cores:=1}
+        find bin/ -type f -name "*wget*"
+        exit
         [ ! -d feeds/luci/applications ]&&echo "没有找到 feeds/luci/applications 路径!"&&exit 127
         echo "克隆 luci-app-k3screenctrl 中..."
         git clone https://github.com/yiguihai/luci-app-k3screenctrl feeds/luci/applications/luci-app-k3screenctrl
