@@ -109,15 +109,13 @@ jobs:
         make clean        
         echo "编译 k3screenctrl ..."
         cd ../k3screenctrl
-        ./configure --host=${target_host} --prefix=/tmp/ipk
+        ./configure --host=${target_host}
         make -j${cores:=1}
-        ls -l ./src
-        ls -l
+        file src/k3screenctrl
         exit
-        :<<EOF
-        ${target_host}-readelf -d ipt2socks
-        file ipt2socks
-        upx --ultra-brute --best -v ipt2socks
+        ${target_host}-readelf -d src/k3screenctrl
+        file src/k3screenctrl
+        upx --ultra-brute --best -v src/k3screenctrl
         mv -f ipt2socks /tmp/bin
         make clean
         echo "开始编译ipk包..."
