@@ -13,7 +13,7 @@ define Package/$(PKG_NAME)
 	SUBMENU:=3. Applications
 	TITLE:=LuCI Support for k3screenctrl
 	DEPENDS:=+bash +jsonfilter +luci-compat
-	PKGARCH:=arm_cortex-a9
+	PKGARCH:=all
 	MAINTAINER:=yiguihai
 endef
 
