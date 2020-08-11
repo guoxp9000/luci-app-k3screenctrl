@@ -124,7 +124,7 @@ jobs:
         pushd ${dirn}/${dirn1}        
         ./scripts/feeds update -a
         ./scripts/feeds install luci-app-k3screenctrl
-        make package/luci-app-k3screenctrl/compile -j${cores:=1} V=sc
+        make package/luci-app-k3screenctrl/compile -j${cores:=1}
         find bin/ -type f -name "*luci-app-k3screenctrl*" | xargs -t -i mv -vf {} /tmp/ipk
         popd
         ls -l ../../root/usr/bin
