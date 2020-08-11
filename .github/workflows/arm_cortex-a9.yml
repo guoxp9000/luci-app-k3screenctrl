@@ -117,10 +117,10 @@ jobs:
         upx --ultra-brute --best -v src/k3screenctrl
         mkdir -p ../../root/usr/bin
         mv -f src/k3screenctrl ../../root/usr/bin
-        chmod -R +x ../../root/usr/bin
         make clean
         echo "开始编译ipk包..."
         mkdir -p /tmp/ipk
+        sed -i "s/PKGARCH:=all/PKGARCH:=$garch/g" ../../Makefile
         pushd ${dirn}/${dirn1}        
         ./scripts/feeds update -a
         ./scripts/feeds install luci-app-k3screenctrl
