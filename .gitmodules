@@ -1,0 +1,3 @@
+[submodule "tools/k3screenctrl"]
+	path = tools/k3screenctrl
+	url = https://github.com/RightFS/k3screenctrl
